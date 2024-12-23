@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include "vis.hpp"
-#include "map.hpp"
+#include "som.hpp"
 
 
 /**
@@ -28,7 +28,7 @@ std::vector<std::array<double, 2>> dataFromScatterPlotImage(cv::Mat* img) {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 2) {
+    if (argc != 2 || std::string(argv[1]) == "--help") {
         std::cout << "Usage: " << argv[0] << " (scatter_img.png)" << std::endl;
         return 1;
     }
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     std::cout << "Loading " << img_path << std::endl;
     cv::Mat img = cv::imread(img_path);
 
-    SelfOrganizingMapLinear2d som(20);
+    LinearSelfOrganizingMap2d som(20);
     std::cout << "Initializing simple linear SOM of length " << som.length() << " uniformly along [0,1],0.5" << std::endl;
     for (size_t pos = 0; pos < som.length(); ++pos) {
         som.getNeuron(pos).weightVector()[0] = pos / 19.;

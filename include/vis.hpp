@@ -8,7 +8,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/shape.hpp>
 
-#include "map.hpp"
+#include "som.hpp"
 
 typedef cv::Point3_<uint8_t> Pixel;
 struct RGBRef {
@@ -25,7 +25,7 @@ struct RGBRef {
 
 class FileAnimSelfOrganizingMapVisualizer {
 public:
-    FileAnimSelfOrganizingMapVisualizer(SelfOrganizingMapLinear2d* linear_som, cv::Mat bg, std::vector<std::array<double, 2>>* data)
+    FileAnimSelfOrganizingMapVisualizer(LinearSelfOrganizingMap2d* linear_som, cv::Mat bg, std::vector<std::array<double, 2>>* data)
             : m_linear_som(linear_som)
             , m_width(bg.size().width)
             , m_height(bg.size().height)
@@ -69,7 +69,7 @@ private:
     cv::Point neuronWeightVectorToPoint(const Neuron<2>& neuron) { return cv::Point(neuron.weightVector()[0] * m_width,
                                                                                     neuron.weightVector()[1] * m_height); }
 
-    SelfOrganizingMapLinear2d* m_linear_som;
+    LinearSelfOrganizingMap2d* m_linear_som;
     const size_t m_width;
     const size_t m_height;
     cv::Mat m_bg;

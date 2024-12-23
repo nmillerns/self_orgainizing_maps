@@ -7,10 +7,10 @@ include_directories( ${OpenCV_INCLUDE_DIRS} include)
 
 
 add_executable(demo-linear src/demo_linear.cpp
-        include/map.hpp
+        include/som.hpp
         include/vis.hpp)
 
 target_link_libraries( demo-linear ${OpenCV_LIBS} )
 
-add_executable(run-tests tests/tests.cpp
-        include/map.hpp)
+add_executable(run-tests tests/som-tests.cpp
+        include/som.hpp)

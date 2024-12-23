@@ -25,9 +25,9 @@ private:
 
 
 template<size_t DIMENSIONS>
-class SelfOrganizingMapGrid {
+class GridSelfOrganizingMap {
 public:
-    SelfOrganizingMapGrid(size_t width, size_t height)
+    GridSelfOrganizingMap(size_t width, size_t height)
         : m_width(width)
         , m_height(height)
         , m_neurons(m_width * m_height) {
@@ -57,13 +57,6 @@ public:
     iterator begin() { return iterator(m_neurons.begin(), m_neurons.begin(), m_width); }
     iterator end() { return iterator(m_neurons.end(), m_neurons.begin(), m_width); }
 
-    static double norm2(const double a[DIMENSIONS], const double b[DIMENSIONS]) {
-        double n = 0.;
-        for (size_t i = 0; i < DIMENSIONS; ++i) {
-            n += (a[i] - b[i]) * (a[i] - b[i]);
-        }
-        return n;
-    }
     iterator BMU(const double vec[DIMENSIONS]) {
         iterator best = begin();
         double mind = norm2(best->weightVector(), vec);
@@ -115,6 +108,14 @@ public:
     }
 
 private:
+    static double norm2(const double a[DIMENSIONS], const double b[DIMENSIONS]) {
+        double n = 0.;
+        for (size_t i = 0; i < DIMENSIONS; ++i) {
+            n += (a[i] - b[i]) * (a[i] - b[i]);
+        }
+        return n;
+    }
+
     inline size_t rowColToIndex(size_t row, size_t col) const { return row * m_width + col; }
     size_t m_width;
     size_t m_height;
@@ -123,16 +124,16 @@ private:
 
 
 template<size_t DIMENSIONS>
-class SelfOrganizingMapLinear : public SelfOrganizingMapGrid<DIMENSIONS> {
+class LinearSelfOrganizingMap : public GridSelfOrganizingMap<DIMENSIONS> {
 public:
-    SelfOrganizingMapLinear(size_t length) : SelfOrganizingMapGrid<DIMENSIONS>(length, 1) {}
-    inline size_t length() const { return SelfOrganizingMapGrid<DIMENSIONS>::width(); }
-    const Neuron<DIMENSIONS>& getNeuron(size_t index) const { return SelfOrganizingMapGrid<DIMENSIONS>::getNeuron(0, index); }
-    Neuron<DIMENSIONS>& getNeuron(size_t index) { return SelfOrganizingMapGrid<DIMENSIONS>::getNeuron(0, index); }
+    LinearSelfOrganizingMap(size_t length) : GridSelfOrganizingMap<DIMENSIONS>(length, 1) {}
+    inline size_t length() const { return GridSelfOrganizingMap<DIMENSIONS>::width(); }
+    const Neuron<DIMENSIONS>& getNeuron(size_t index) const { return GridSelfOrganizingMap<DIMENSIONS>::getNeuron(0, index); }
+    Neuron<DIMENSIONS>& getNeuron(size_t index) { return GridSelfOrganizingMap<DIMENSIONS>::getNeuron(0, index); }
 };
 
 
-typedef SelfOrganizingMapGrid<2> SelfOrganizingMapGrid2d;
-typedef SelfOrganizingMapLinear<2> SelfOrganizingMapLinear2d;
+typedef GridSelfOrganizingMap<2> GridSelfOrganizingMap2d;
+typedef LinearSelfOrganizingMap<2> LinearSelfOrganizingMap2d;
 
 #endif //SELFORGANIZINGMAPS_MAP_H
