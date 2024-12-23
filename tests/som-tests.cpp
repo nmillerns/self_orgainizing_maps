@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "map.hpp"
+#include "som.hpp"
 
 #define _SS std::stringstream()
 #define _PASS std::cout << "PASS" << std::endl;
@@ -17,7 +17,7 @@ void basicAssert(bool condition, const std::stringstream msg_stream) {
 
 void testSimple1dMap() {
     std::cout << "Simple 1d Map..." << std::flush;
-    SelfOrganizingMapGrid<1> grid(3, 2);
+    GridSelfOrganizingMap<1> grid(3, 2);
     for (auto neuron_i = grid.begin(); neuron_i != grid.end(); ++neuron_i) {
         basicAssert(1 == neuron_i->length(), _SS << "Wrong Neuron Length 1 vs " << neuron_i->length());
         neuron_i->weightVector()[0] = 0.01 * (neuron_i.row() + neuron_i.col());
