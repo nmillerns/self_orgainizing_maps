@@ -18,8 +18,7 @@ std::vector<std::array<double, 2>> dataFromScatterPlotImage(cv::Mat* img) {
     for (size_t row = 0; row < height; ++row) {
         for (size_t col = 0; col < width; ++col) {
             if (!RGBRef(img->at<Pixel>(row, col)).isWhite()) {
-                std::array<double, 2> vec = {col / width, row / height};
-                data.emplace_back(vec);
+                data.emplace_back(std::array<double, 2>({col / width, row / height}));
             }
 
         }
