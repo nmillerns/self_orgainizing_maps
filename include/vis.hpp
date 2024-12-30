@@ -22,6 +22,16 @@ struct RGBRef {
     bool isWhite() { return r == 255 || g == 255 || b == 255; }
 };
 
+/**
+ * Help with stdlib deficency with type of stringstream operator<< return
+ * https://stackoverflow.com/questions/59473325/no-member-named-str-in-stdbasic-ostreamchar-with-gcc-and-clang-but-no-p
+ */
+struct StringStreamHelper {
+    std::ostringstream stream;
+    template<typename T>
+    StringStreamHelper& operator<<(const T& val) { stream << val; return *this; }
+    std::string str() const { return stream.str(); }
+};
 
 class FileAnimSelfOrganizingMapVisualizer {
 public:
@@ -58,7 +68,7 @@ public:
         cv::circle(m_output, cv::Point(Dt[0] * m_width, Dt[1] * m_height), 2, cv::Scalar(0, 255, 0), 4);
         drawSOM();
         // Update animation frame
-        cv::imwrite((std::stringstream() <<
+        cv::imwrite((StringStreamHelper() <<
                                          m_path_base << std::setw(9) << std::setfill('0') << s << ".png").str(),
                     m_output);
     }
