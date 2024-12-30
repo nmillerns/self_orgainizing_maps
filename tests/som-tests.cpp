@@ -5,11 +5,12 @@
 #include <sstream>
 #include <stdexcept>
 #include "som.hpp"
+#include "vis.hpp"
 
-#define _SS std::stringstream()
+#define _SS StringStreamHelper()
 #define _PASS std::cout << "PASS" << std::endl;
 
-void basicAssert(bool condition, const std::stringstream msg_stream) {
+void basicAssert(bool condition, const StringStreamHelper& msg_stream) {
     if (!condition) {
         throw std::runtime_error(msg_stream.str());
     }
